@@ -61,5 +61,3 @@ The "brain" of this app is a **Linear Regression** model trained on a massive da
 - `flight_price_prediction.ipynb`: The original notebook where I cleaned the data and trained the model.
 
 ---
-
-Built with ❤️ by [Abhimat Dangi](https://github.com/abhimatdangi)
