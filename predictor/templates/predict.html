@@ -1,0 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flyfare - Flight Price Prediction</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">FlyFare</div>
+            <div class="nav-wrapper">
+                <nav class="nav-menu">
+                    <a href="#predict" class="nav-item">Predict</a>
+                    <a href="#about" class="nav-item">About</a>
+                </nav>
+                <a href="#predict" class="get-started-btn">Get Started</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1 class="hero-title">Predict Flight Prices <span class="highlight">Accurately</span></h1>
+        <p class="hero-subtitle">Get AI-powered predictions for your next flight. Save money by booking at the right time with our advanced price forecasting technology.</p>
+        <div class="hero-buttons">
+            <a href="#predict" class="btn-primary">Start Predicting</a>
+        </div>
+    </section>
+
+    <!-- Prediction Section -->
+    <section id="predict" class="prediction-section">
+        <h2 class="section-title-main">Flight Price Predictor</h2>
+        <p class="section-subtitle-main">Enter your flight details to get an accurate price prediction</p>
+        
+        <div class="form-container">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label>Airline</label>
+                        <select name="airline" required>
+                            <option value="">Select Airline</option>
+                            <option value="AirAsia">AirAsia</option>
+                            <option value="IndiGo">IndiGo</option>
+                            <option value="GoAir">GO_FIRST (GoAir)</option>
+                            <option value="SpiceJet">SpiceJet</option>
+                            <option value="Air India">Air India</option>
+                            <option value="Vistara">Vistara</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Source City</label>
+                        <select name="source" required>
+                            <option value="">Select Source</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Kolkata">Kolkata</option>
+                            <option value="Chennai">Chennai</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Destination City</label>
+                        <select name="destination" required>
+                            <option value="">Select Destination</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Kolkata">Kolkata</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Number of Stops</label>
+                        <select name="stops" required>
+                            <option value="">Select Stops</option>
+                            <option value="0">Non-stop</option>
+                            <option value="1">1 Stop</option>
+                            <option value="2">2 or More Stops</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Departure Time</label>
+                        <select name="departure_time" required>
+                            <option value="">Select Time</option>
+                            <option value="Early Morning">Early Morning</option>
+                            <option value="Morning">Morning</option>
+                            <option value="Afternoon">Afternoon</option>
+                            <option value="Evening">Evening</option>
+                            <option value="Night">Night</option>
+                            <option value="Late Night">Late Night</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Arrival Time</label>
+                        <select name="arrival_time" required>
+                            <option value="">Select Time</option>
+                            <option value="Early Morning">Early Morning</option>
+                            <option value="Morning">Morning</option>
+                            <option value="Afternoon">Afternoon</option>
+                            <option value="Evening">Evening</option>
+                            <option value="Night">Night</option>
+                            <option value="Late Night">Late Night</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Class</label>
+                        <select name="class" required>
+                            <option value="">Select Class</option>
+                            <option value="Economy">Economy</option>
+                            <option value="Business">Business</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Departure Date</label>
+                        <input type="date" name="departure_date" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Predict Price</button>
+            </form>
+
+            {% if show_result %}
+            <div class="result-box">
+                <div class="result-label">Predicted Price</div>
+                <div class="result-price">${{ price_usd|floatformat:2 }}</div>
+                <div class="result-conversion">≈ ₹{{ price_inr|floatformat:2 }} INR</div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="about-content">
+            <h2 class="about-title">How it Works</h2>
+            <p class="about-subtitle">Get accurate flight price predictions in four simple steps</p>
+
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Enter Details</h3>
+                    <p class="step-desc">Provide your flight information including source, destination, airline, and travel dates</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">AI Analysis</h3>
+                    <p class="step-desc">Our machine learning model analyzes historical data and flight patterns</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Get Prediction</h3>
+                    <p class="step-desc">Receive instant price predictions in both USD and INR currencies</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Book Smart</h3>
+                    <p class="step-desc">Make informed decisions and book your flight at the right time</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">Flyfare</div>
+                <p class="footer-tagline">Smart flight price predictions powered by AI</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#about">How it Works</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Connect to Developer</h4>
+                    <a href="https://x.com/abhimatdc" target="_blank">Twitter</a>
+                    <a href="https://www.linkedin.com/in/abhimatdangi/" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Flyfare. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
